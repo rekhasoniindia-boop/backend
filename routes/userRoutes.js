@@ -18,4 +18,4 @@ router.get('/product/:id', getOneProduct)
 router.get('/products', getProductsByCategory)
 router.get('/allproducts', getAllProducts)
 
-export default router;
+export default router;  
