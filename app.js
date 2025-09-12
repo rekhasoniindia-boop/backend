@@ -13,8 +13,9 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: "http://localhost:5173", // <-- no trailing slash
-  credentials: true,
+  origin: "https://justclickary.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 
 app.use("/api/users", userRouter);
