@@ -4,6 +4,11 @@ import { protect } from "../middlewares/authAdmin.js";
 
 const router = express.Router();
 
+// test application
+router.get('/test', (req, res) => {
+    res.send("Are bhai cal raha hai application");
+})
+
 // Register
 router.post("/signup", registerUser);
 // Login
