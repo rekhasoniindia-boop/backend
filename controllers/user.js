@@ -129,8 +129,6 @@ export const getAllProducts = async (req, res) => {
       ? {
           $or: [
             { name: { $regex: search, $options: "i" } },
-            { description: { $regex: search, $options: "i" } },
-            { category: { $regex: search, $options: "i" } },
             { hashtags: { $regex: search.startsWith("#") ? search : `#${search}`, $options: "i" } },
           ],
         }
