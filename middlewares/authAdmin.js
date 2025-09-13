@@ -51,8 +51,7 @@ export const protect = async (req, res, next) => {
 
 // 🔒 Only Admin middleware
 export const adminOnly = (req, res, next) => {
-  if (req.user && req.user.role === "admin") {
-    console.log("data mil gaya re",req.user, req.admin)
+  if (req.user && req.admin.role === "admin") {
     next();
     
   } else {

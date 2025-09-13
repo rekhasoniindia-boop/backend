@@ -94,13 +94,23 @@ export const getOneProduct = async (req, res) => {
 };
 
 // route: /api/users/products?category=Shoes
-export const getProductsByCategory = async (req, res) => {
+export const getProductsByHashtag = async (req, res) => {
   try {
-    const { category } = req.query; // query param se category aayegi
-    if (!category) {
-      return res.status(400).json({ message: "Category is required" });
+    const { hashtag } = req.query; // query param se hashtag aayega
+    console.log(req.query);
+
+    if (!hashtag) {
+      return res.status(400).json({ message: "Hashtag is required" });
     }
-    const products = await Product.find({ category }); 
+
+    // normalize hashtag (# ke saath aur bina # dono handle karenge)
+    const normalized = hashtag.startsWith("#") ? hashtag : `#${hashtag}`;
+
+    // regex use karenge taaki partial search bhi ho jaaye
+    const products = await Product.find({
+      hashtags: { $regex: new RegExp(normalized, "i") },
+    });
+
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: "Error fetching products", error });

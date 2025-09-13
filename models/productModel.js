@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema(
         "Automotive & Accessories",
         "Health & Wellness",
         "Pet Supplies",
-      ], // select options
+      ],
       required: true,
     },
     link: { type: String, required: true },
@@ -32,12 +32,17 @@ const productSchema = new mongoose.Schema(
         "Nykaa",
         "mamaearth",
         "wow",
-      ], // select options
+        "shyaway",
+      ],
       required: true,
     },
     mainImage: { type: String, required: true }, // Cloudinary URL
     smallImages: [{ type: String }], // array of Cloudinary URLs
     youtube: { type: String },
+
+    // 👇 New field for hashtags
+    hashtags: [{ type: String }],
+
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admin",

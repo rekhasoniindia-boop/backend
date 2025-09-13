@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser, loginUser ,addFavourite, removeFavourite, getOneProduct, getProductsByCategory, getAllProducts, getFavorites } from "../controllers/user.js";
+import { registerUser, loginUser ,addFavourite, removeFavourite, getOneProduct, getProductsByHashtag, getAllProducts, getFavorites } from "../controllers/user.js";
 import { protect } from "../middlewares/authAdmin.js";
 
 const router = express.Router();
@@ -20,7 +20,7 @@ router.post("/favourites/:id", protect, addFavourite);
 router.delete("/favourites/:id", protect, removeFavourite);
 
 router.get('/product/:id', getOneProduct)
-router.get('/products', getProductsByCategory)
+router.get('/products', getProductsByHashtag)
 router.get('/allproducts', getAllProducts)
 
 export default router;  

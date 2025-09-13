@@ -1,5 +1,5 @@
 import express from "express";
-import { createProduct, deleteProduct, getProductForHero, getAllProducts } from "../controllers/product.js";
+import { createProduct, deleteProduct, getProductForHero, getAllProducts, updateProduct } from "../controllers/product.js";
 import { registerAdmin, loginAdmin, logoutAdmin, getAdminProfile } from "../controllers/admin.js";
 import { protect, adminOnly } from "../middlewares/authAdmin.js";
 import { createBanners, getBanners } from "../controllers/banner.js";
@@ -20,8 +20,9 @@ router.post(
   createProduct
 );
 router.get("/products", getProductForHero);
-router.get("/allproducts", getAllProducts)
+router.get("/allproducts/:id", getAllProducts)
 router.delete("/:id", protect, adminOnly, deleteProduct);
+router.put("/update/:id", protect, adminOnly, updateProduct)
 router.post("/signup", registerAdmin);
 router.post("/login", loginAdmin);
 router.get('/ac/:id',protect, adminOnly, getAdminProfile)
