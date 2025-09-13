@@ -96,19 +96,20 @@ export const getOneProduct = async (req, res) => {
 // route: /api/users/products?category=Shoes
 export const getProductsByHashtag = async (req, res) => {
   try {
-    const { hashtag } = req.query; // query param se hashtag aayega
-    console.log(req.query);
+    let { hashtag } = req.query;
+    console.log(hashtag)
 
-    if (!hashtag) {
-      return res.status(400).json({ message: "Hashtag is required" });
-    }
+    if (!hashtag) return res.status(400).json({ message: "Hashtag is required" });
 
-    // normalize hashtag (# ke saath aur bina # dono handle karenge)
-    const normalized = hashtag.startsWith("#") ? hashtag : `#${hashtag}`;
+    // agar array nahi hai, single value ko array me convert karo
+    if (!Array.isArray(hashtag)) hashtag = [hashtag];
 
-    // regex use karenge taaki partial search bhi ho jaaye
+    // normalize aur regex array create karo
+    const regexArray = hashtag.map(h => new RegExp(h.startsWith("#") ? h : `#${h}`, "i"));
+
+    // MongoDB query: any hashtag match
     const products = await Product.find({
-      hashtags: { $regex: new RegExp(normalized, "i") },
+      hashtags: { $in: regexArray }
     });
 
     res.status(200).json(products);
@@ -117,18 +118,20 @@ export const getProductsByHashtag = async (req, res) => {
   }
 };
 
+
 // 👇 yahi function maine pehle diya tha
 export const getAllProducts = async (req, res) => {
   try {
     const search = req.query.search || "";
 
-    // agar search param diya hai to name aur category dono me filter karo
+    // agar search param diya hai to name, description, category, hashtags me filter karo
     const query = search
       ? {
           $or: [
             { name: { $regex: search, $options: "i" } },
             { description: { $regex: search, $options: "i" } },
             { category: { $regex: search, $options: "i" } },
+            { hashtags: { $regex: search.startsWith("#") ? search : `#${search}`, $options: "i" } },
           ],
         }
       : {};
