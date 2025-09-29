@@ -13,7 +13,10 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: "https://justclickary.com",
+  origin: [
+    "https://justclickary.com",   // web app
+    "capacitor://localhost"       // Capacitor APK
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
